@@ -143,7 +143,7 @@ export const FileMenu = observer(({ store, project }) => {
           reader.readAsText(input.files[0]);
         }}
       />
-      <Dialog
+      {/* <Dialog
         icon="info-sign"
         onClose={() => toggleFaq(false)}
         title="About Polotno Studio"
@@ -200,7 +200,7 @@ export const FileMenu = observer(({ store, project }) => {
             <Button onClick={() => toggleFaq(false)}>Close</Button>
           </div>
         </div>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 });

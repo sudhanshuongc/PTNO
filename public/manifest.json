@@ -1,15 +1,15 @@
 {
-  "short_name": "Polotno Studio",
-  "name": "Polotno studio",
+  "short_name": "DigiCanvas",
+  "name": "DigiCanvas",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "MainLogo.svg",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "svg"
     },
     {
-      "src": "logo.png",
-      "type": "image/png",
+      "src": "MainLogo.svg",
+      "type": "svg",
       "sizes": "128x128"
     }
   ],

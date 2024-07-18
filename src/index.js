@@ -24,18 +24,6 @@ window.project = project;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const AUTH_DOMAIN = 'polotno-studio.eu.auth0.com';
-const PRODUCTION_ID = process.env.REACT_APP_AUTH0_ID;
-const LOCAL_ID = process.env.REACT_APP_AUTH0_ID;
-
-const isLocalhost =
-  typeof window !== undefined && window.location.href.indexOf('localhost') >= 0;
-const ID = isLocalhost ? LOCAL_ID : PRODUCTION_ID;
-const REDIRECT = isLocalhost
-  ? 'http://localhost:3000'
-  : 'https://studio.polotno.com';
-
-
 function Fallback({ error, resetErrorBoundary }) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
 
@@ -110,9 +98,7 @@ root.render(
         }}
       >
         <ProjectContext.Provider value={project}>
-          <Auth0Provider domain={AUTH_DOMAIN} clientId={ID} redirectUri={REDIRECT}>
             <App store={store} />
-          </Auth0Provider>
         </ProjectContext.Provider>
       </ConfigProvider>
     </Provider>

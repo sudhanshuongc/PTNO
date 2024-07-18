@@ -12,7 +12,7 @@ import { Ticker } from "./components/Ticker";
 import { Input } from "antd";
 import { QR } from "./components/QR";
 import { Html } from "./components/Html";
-
+import { MdWidgets } from "react-icons/md";
 const apps = [
   { name: "QR Code", image: qr },
   { name: "HTML Embed", image: html },
@@ -189,7 +189,7 @@ export const WidgetSection = {
   name: "apps",
   Tab: (props) => (
     <SectionTab name="Apps" {...props}>
-      <FdCommentQuotes />
+<MdWidgets />
     </SectionTab>
   ),
   Panel: WidgetPanel,

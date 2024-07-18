@@ -19,6 +19,7 @@ import { IconsSection } from './sections/icons-section';
 import { ShapesSection } from './sections/shapes-section';
 import { StableDiffusionSection } from './sections/stable-diffusion-section';
 import { MyDesignsSection } from './sections/my-designs-section';
+import { UploadSection } from './sections/upload-section';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -56,11 +57,12 @@ DEFAULT_SECTIONS.splice(3, 1, ShapesSection);
 DEFAULT_SECTIONS.splice(3, 0, IconsSection);
 // add two more sections
 DEFAULT_SECTIONS.push(QuotesSection,MediaSection,WidgetSection);
-// DEFAULT_SECTIONS.unshift(UploadSection);
 DEFAULT_SECTIONS.unshift(MyDesignsSection);
 
 DEFAULT_SECTIONS.push(StableDiffusionSection);
 // DEFAULT_SECTIONS.push(VideosSection);
+const index = DEFAULT_SECTIONS.findIndex(obj => obj.name === 'upload');
+DEFAULT_SECTIONS.splice(index,1);
 
 const isStandalone = () => {
   return (

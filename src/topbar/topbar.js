@@ -226,7 +226,7 @@ export default observer(({ store }) => {
         <Navbar.Group align={Alignment.RIGHT}>
           <NavbarDivider />
           {/* <DownloadButton store={store} /> */}
-          <Button style={{...buttonStyle,width:"10rem",height:"2.4rem"}} onClick={() => handleSaveTemplate()}>
+          <Button style={{...buttonStyle,width:"10rem",height:"2.4rem",marginRight:"5rem"}} onClick={() => handleSaveTemplate()}>
             {isCreating || isUpdating || isCreatingLink ? (
               <div
                 style={{

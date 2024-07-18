@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "@blueprintjs/core";
 import axios from 'axios';
+import { FaUpload } from "react-icons/fa";
 import {
   ImagesGrid,
   UploadSection as DefaultUploadSection,
@@ -259,12 +260,12 @@ export const MediaPanel = observer(({ store }) => {
   const handleAddMedia = (item) => {
     console.log(item);
     store.activePage.addElement({
-      x: 0,
-      y: 0,
+      x: 100,
+      y: 100,
       type: item.type,
       src: item.link,
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
     });
   }
 
@@ -295,7 +296,7 @@ export const MediaPanel = observer(({ store }) => {
           style={{
             backgroundColor: "#454D59",
             color: "#ffffff",
-            height: "3.5rem",
+            height: "2.5rem",
             width: "100%",
           }}
         >
@@ -395,10 +396,10 @@ export const MediaPanel = observer(({ store }) => {
 });
 
 export const MediaSection = {
-    name: 'media',
+    name: 'uploads',
     Tab: (props) => (
-      <SectionTab name="Media" {...props}>
-        <FdCommentQuotes />
+      <SectionTab name="Uploads" {...props}>
+        <FaUpload />
       </SectionTab>
     ),
     Panel: MediaPanel,
