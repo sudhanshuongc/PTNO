@@ -28,7 +28,7 @@ export const Ticker = observer(({ store, onBack }) => {
   });
   const isEditingTicker = useSelector((state) => state.sidebar.isEditingTicker);
 
-  const marqueeHtml = `<!DOCTYPEhtml><htmllang="en"><head><metacharset="UTF-8"><meta name="viewport"content="width=device-width,initial-scale=1.0"></head><body><div id="ticker" style="width:100%;height:15rem;background-color:${
+  const marqueeHtml = `<!DOCTYPEhtml><htmllang="en"><head><metacharset="UTF-8"><meta name="viewport"content="width=device-width,initial-scale=1.0"></head><body><div id="ticker" style="width:100%;height:10rem;background-color:${
     form.backgroundColor
   };display:flex;align-items:center;justify-content:center;overflow:hidden;"><marquee direction=${
     form.direction
@@ -38,17 +38,18 @@ export const Ticker = observer(({ store, onBack }) => {
     form.text
   }</marquee></div></body></html>`;
 
-  const positionedHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><div id="ticker" style="width:100%;height:15rem;background-color:${form.backgroundColor};display:flex;align-items:center;justify-content:${form.position};overflow:hidden;position:relative;"><h1 style="margin:0;color:${form.textColor};font-size:${form.size}px;margin:1rem;font-weight:400;font-family:${form.font},sans-serif;">${form.text}</h1></div></body></html>`;
+  const positionedHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><div id="ticker" style="width:100%;height:10rem;background-color:${form.backgroundColor};display:flex;align-items:center;justify-content:${form.position};overflow:hidden;position:relative;"><h1 style="margin:0;color:${form.textColor};font-size:${form.size}px;margin:1rem;font-weight:400;font-family:${form.font},sans-serif;">${form.text}</h1></div></body></html>`;
 
   const newText = form.position === "marquee" ? marqueeHtml : positionedHtml;
 
   const handleAddTicker = () => {
+    const json = store.toJSON();
     store.activePage.addElement({
       x: 0,
       y: 0,
       type: "html",
       html: newText,
-      width: 800,
+      width: json.width,
       height: 150,
     });
   };
@@ -67,10 +68,10 @@ export const Ticker = observer(({ store, onBack }) => {
         if (child.type === "html" && store.selectedElements[0]?.toJSON().id === child.id) {
           console.log("ticker comp", child);
           child.html = newText;
+          child.width = json.width;
         }
       });
     });
-    console.log(data);
     store.loadJSON(data);
   };
 

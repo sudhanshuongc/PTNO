@@ -140,9 +140,9 @@ const App = observer(({ store }) => {
     }
   }, [project.language]);
 
-  React.useEffect(() => {
-    project.firstLoad();
-  }, []);
+  // React.useEffect(() => {
+  //   project.firstLoad();
+  // }, []);
 
   const handleDrop = (ev) => {
     // Prevent default behavior (Prevent file from being opened)

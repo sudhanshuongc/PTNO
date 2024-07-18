@@ -137,7 +137,7 @@ export default observer(({ store }) => {
     const { link, size } = uploadData;
     const dimensions = {
       width: json.width,
-      height: json.width,
+      height: json.height,
     };
 
     console.log(link, size);
@@ -205,7 +205,7 @@ export default observer(({ store }) => {
     <NavbarContainer className="bp5-navbar">
       <NavInner>
         <Navbar.Group align={Alignment.LEFT}>
-          <FileMenu store={store} project={project} />
+          {/* <FileMenu store={store} project={project} /> */}
           <div
             style={{
               paddingLeft: "20px",
