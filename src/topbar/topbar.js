@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Loading3QuartersOutlined } from '@ant-design/icons';
+import { Loading3QuartersOutlined } from "@ant-design/icons";
 import {
   Navbar,
   Alignment,
@@ -10,7 +10,7 @@ import {
   Popover,
 } from "@blueprintjs/core";
 import { message } from "antd"; // Add antd message for displaying error
-import stringify from 'json-stringify-safe';
+import stringify from "json-stringify-safe";
 import MdcCloudAlert from "@meronex/icons/mdc/MdcCloudAlert";
 import MdcCloudCheck from "@meronex/icons/mdc/MdcCloudCheck";
 import MdcCloudSync from "@meronex/icons/mdc/MdcCloudSync";
@@ -18,6 +18,7 @@ import styled from "polotno/utils/styled";
 
 import { useProject } from "../project";
 import { Button } from "@blueprintjs/core";
+import _ from "lodash";
 
 import { FileMenu } from "./file-menu";
 import { DownloadButton } from "./download-button";
@@ -31,6 +32,7 @@ import {
 } from "../redux/services/CanvasApi";
 import { useGetPresignedUrlMutation } from "../redux/services/MediaApi";
 import ApiResponse from "../utils/ApiResponseHandler";
+import { useGetAllPlaylistsQuery } from "../redux/services/PlaylistApi";
 
 const NavbarContainer = styled("div")`
   white-space: nowrap;
@@ -88,12 +90,19 @@ export default observer(({ store }) => {
   const [templateName, setTemplateName] = useState("");
   const [createCanvas, { isLoading: isCreating }] = useCreateCanvasMutation();
   const [updateCanvas, { isLoading: isUpdating }] = useUpdateCanvasMutation();
+  const { data: allPlaylist, isLoading: isLoadingAllPlaylists } =
+    useGetAllPlaylistsQuery();
+
   const { data: allCanvas, isLoading: isLoadingAllCanvas } =
     useGetAllCanvasQuery();
   const [currentCanvas, setCurrentCanvas] = useState(null);
   const [isCreatingLink, setIsCreatingLink] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const id = new URLSearchParams(window.location.search).get("id");
+
+  const deepClone = (obj) => {
+    return _.cloneDeep(obj);
+  };
 
   const uploadJson = async (jsonObject, name) => {
     const json = stringify(jsonObject, null, 2);
@@ -129,11 +138,28 @@ export default observer(({ store }) => {
     }
     setIsCreatingLink(true);
     const json = store.toJSON();
-    console.log(json);
+    const data = deepClone(json);
+    data.pages.forEach((page) => {
+      const children = page.children;
+      children.forEach((child) => {
+        if (
+          child.type === "image" &&
+          allPlaylist?.data?.playlists &&
+          allPlaylist.data.playlists.some(
+            (playlist) => playlist._id.$oid === child.id
+          )
+        ) {
+          child.type = "playlist";
+        }
+      });
+    });
 
-    const totalDuration = json.pages.reduce((acc, page) => acc + page.duration, 0);
+    const totalDuration = json.pages.reduce(
+      (acc, page) => acc + page.duration,
+      0
+    );
 
-    const uploadData = await uploadJson(json, "template");
+    const uploadData = await uploadJson(data, "template");
     const { link, size } = uploadData;
     const dimensions = {
       width: json.width,
@@ -171,8 +197,17 @@ export default observer(({ store }) => {
   };
 
   const handleImport = (data) => {
-    store.loadJSON(data);
-  }
+    const importData = deepClone(data);
+    importData.pages.forEach((page) => {
+      const children = page.children;
+      children.forEach((child) => {
+        if (child.type === "playlist") {
+          child.type = "image";
+        }
+      });
+    });
+    store.loadJSON(importData);
+  };
 
   useEffect(() => {
     if (
@@ -226,7 +261,15 @@ export default observer(({ store }) => {
         <Navbar.Group align={Alignment.RIGHT}>
           <NavbarDivider />
           {/* <DownloadButton store={store} /> */}
-          <Button style={{...buttonStyle,width:"10rem",height:"2.4rem",marginRight:"5rem"}} onClick={() => handleSaveTemplate()}>
+          <Button
+            style={{
+              ...buttonStyle,
+              width: "10rem",
+              height: "2.4rem",
+              marginRight: "5rem",
+            }}
+            onClick={() => handleSaveTemplate()}
+          >
             {isCreating || isUpdating || isCreatingLink ? (
               <div
                 style={{

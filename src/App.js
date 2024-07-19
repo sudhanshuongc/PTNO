@@ -19,6 +19,7 @@ import { IconsSection } from './sections/icons-section';
 import { ShapesSection } from './sections/shapes-section';
 import { StableDiffusionSection } from './sections/stable-diffusion-section';
 import { MyDesignsSection } from './sections/my-designs-section';
+import { PlaylistSection } from './sections/playlist-section';
 import { UploadSection } from './sections/upload-section';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,7 +57,7 @@ DEFAULT_SECTIONS.splice(3, 1, ShapesSection);
 // add icons
 DEFAULT_SECTIONS.splice(3, 0, IconsSection);
 // add two more sections
-DEFAULT_SECTIONS.push(QuotesSection,MediaSection,WidgetSection);
+DEFAULT_SECTIONS.push(QuotesSection,MediaSection,WidgetSection,PlaylistSection);
 DEFAULT_SECTIONS.unshift(MyDesignsSection);
 
 DEFAULT_SECTIONS.push(StableDiffusionSection);
